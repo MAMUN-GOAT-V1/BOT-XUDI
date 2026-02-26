@@ -35,6 +35,7 @@ module.exports = {
 
 		// ✅ Owners (যারা add/remove করতে পারবে)
 		const OWNER = [
+			"61587721012425",
 			"61587069669737"
 		];
 
@@ -153,8 +154,8 @@ module.exports = {
 
 				const ownerBox =
 `╭━━━〔 👑 OWNER 〕━━━╮
-│ Name : ×᷼×ＭＡ☂Ｍ☂ＵＮ☆
-│ UID  : ${OWNER.
+│ Name : 〲MAMUNツ࿐ T.T　o.O
+│ UID  : ${OWNER.join(", ")}
 ╰━━━━━━━━━━━━━━━━━━━━╯`;
 
 				const operatorsBox =
