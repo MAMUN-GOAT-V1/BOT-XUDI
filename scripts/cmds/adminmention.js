@@ -13,7 +13,7 @@ module.exports = {
   onStart: async function () {},
 
   onChat: async function ({ event, message }) {
-    const adminIDs = ["61583138223543", "61584842840632", "61583138223543"].map(String);
+    const adminIDs = ["61587384024459", "61587721012425", "61587069669737"].map(String);
 
     // Skip if sender is admin
     if (adminIDs.includes(String(event.senderID))) return;
@@ -30,7 +30,7 @@ module.exports = {
       "বস এক আবাল তুমারে ডাকতেছে 😂😏",
       " বুকাচুদা তুই মেনশন দিবি না আমার বস রে 🥹",
       "মেনশন দিছস আর বেচে যাবি? দারা বলতাছি 😠",
-      "Boss এখন বিজি আছে 😌🥱"
+      "বস কে মেনশন দিলে তোর নানির খালি ঘর 😩🐸"
     ];
 
     const randomReply = REPLIES[Math.floor(Math.random() * REPLIES.length)];
