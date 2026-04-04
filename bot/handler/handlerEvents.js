@@ -1,5 +1,6 @@
 const fs = require("fs-extra");
 const nullAndUndefined = [undefined, null];
+const leven = require('leven');
 // const { config } = global.GoatBot;
 // const { utils } = global;
 
@@ -250,15 +251,34 @@ module.exports = function (api, threadModel, userModel, dashBoardModel, globalMo
 			// —————  CHECK BANNED OR ONLY ADMIN BOX  ————— //
 			if (isBannedOrOnlyAdmin(userData, threadData, senderID, threadID, isGroup, commandName, message, langCode))
 				return;
-			if (!command)
-				if (!hideNotiMessage.commandNotFound)
-					return await message.reply(
-						commandName ?
-							utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFound", commandName, prefix) :
-							utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFound2", prefix)
-					);
-				else
-					return true;
+			if (!command) {
+				if (!hideNotiMessage.commandNotFound) {
+					const allCommands = Array.from(GoatBot.commands.keys());
+					let closestCommand = null;
+					let minDistance = 999;
+					const distanceThreshold = 2;
+					if (commandName) {
+						for (const correctCommand of allCommands) {
+							const distance = leven(commandName.toLowerCase(), correctCommand.toLowerCase());
+							if (distance < minDistance && distance <= distanceThreshold) {
+								minDistance = distance;
+								closestCommand = correctCommand;
+							}
+						}
+					}
+					if (closestCommand) {
+						return await message.reply(
+							utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFoundSuggestion", closestCommand, prefix)
+						);
+					} else {
+						return await message.reply(
+							commandName ?
+								utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFound", commandName, prefix) :
+								utils.getText({ lang: langCode, head: "handlerEvents" }, "commandNotFound2", prefix)
+						);
+					}
+				} else return true;
+			}
 			// ————————————— CHECK PERMISSION ———————————— //
 			const roleConfig = getRoleConfig(utils, command, isGroup, threadData, commandName);
 			const needRole = roleConfig.onStart;
